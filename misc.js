@@ -19,8 +19,12 @@ function drawReticle(){
 }
 
 function gameOver(){
+    shopMusic.stop();
+    //battleMusic.setVolue(0,1.2);
+    startScreenMusic.stop();
+    numOfKills = 0;
 	push()
-	
+    gameOverSound.play();
 	print("DED");
 	noStroke();
 	fill(20)
@@ -67,8 +71,12 @@ function gameOver(){
 }
 
 function reset(){
+    if (shopMusic.isPlaying()){
+        shopMusic.setVolume(0, 2);
+    }
 	retry.hide();
     store.hide();
+    mineBullet.hide();
     laserPowerButton.hide();
     speedPowerButton.hide();
     fastBulletPowerButton.hide();
@@ -89,28 +97,33 @@ function reset(){
 
 
 function goToStore() {
+    if (!shopMusic.isPlaying()){
+        shopMusic.loop();
+        shopMusic.setVolume(1);
+    }
     createCanvas(600, 600);
-    background(bg);
+    background(itemshop1);
+    text("gems: " + gems, 35, 80);
     retry.hide();
     store.hide();
 
     retry.position(10, 15);
     retry.show();
     
-    speedPowerButton.position(5, 200);
     speedPowerButton.show();
     speedPowerButton.mousePressed(purchaseSpeed);
 
-    fastBulletPowerButton.position(130,200);
     fastBulletPowerButton.show();
     fastBulletPowerButton.mousePressed(purchaseBullet);
+
+    mineBullet.show();
+    mineBullet.mousePressed(mineBulletFunc);
 
     //laserPowerButton.position(400, 200);
     //laserPowerButton.show();
     //laserPowerButton.mousePressed(purchaseLaser);
     push();
     tint(255, 100);
-    skinButton.position(300, 200);
     pop();
     skinButton.show();
     skinButton.mousePressed(purchaseSkin);
@@ -136,6 +149,11 @@ function goToStore() {
 
 
 function purchaseSpeed(){
+    if (gems < 10){
+        window.alert("Not Enough Gems, need 10 gems");
+        return;
+    }
+    gems = gems - 10;
     let correct = false;
     do {
         let user;
@@ -175,6 +193,10 @@ function purchaseSpeed(){
 }
 
 function purchaseBullet(){
+    if (gems < 1){
+        window.alert("Not Enough Gems, need 1 gem");
+        return;
+    }
     let correct = false;
     do {
         let user;
@@ -210,9 +232,17 @@ function purchaseBullet(){
         }
     } while (correct == false);
     speedBullet += 0.005;
-    
+    coin.play();
 }
 function purchaseSkin(){
+    if (gems < 2 && speedBut == false){
+        window.alert("Not Enough Gems, need 2 gems");
+        return;
+    }
+    if (speedBut == false){
+        gems = gems - 2;
+    }
+    speedBut = true;
     speedPowerButton.hide();
     fastBulletPowerButton.hide();
     laserPowerButton.hide();
@@ -252,64 +282,201 @@ function purchaseSkin(){
         }
     } while (correct == false);
     if (correct == true){
+        createCanvas(600,600);
+        background(skinStore);
+        text("gems: " + gems, 35, 50);
         blueButton.show();
         print ("Runs");
         greenButton.show();
         blackButton.show();
-        greyButton.show();
+        //greyButton.show();
         pinkButton.show();
-        purpleButton.show();
-        darkBlueButton.show();
-        brownButton.show();
+        //purpleButton.show();
+        //darkBlueButton.show();
+        //brownButton.show();
+        retry.hide();
+        store.position(470, 40);
         store.show();
-    } 
+        mineBullet.hide();
+    }
+    coin.play();
 }
 
 function changeColorToBlue(){
+    if (gems < 1){
+        window.alert("Not Enough Gems, need 1 gem");
+        return;
+    }
+    gems = gems -1;
     skinColor[0] = 0;
     skinColor[1] = 128;
     skinColor[2] = 255;
+    coin.play();
     window.alert("Successfully Changed!");
 }
 function changeColorToGreen(){
+    if (gems < 1){
+        window.alert("Not Enough Gems, need 1 gem");
+        return;
+    }
+    gems = gems -1;
     skinColor[0] = 12;
     skinColor[1] = 201;
     skinColor[2] = 72;
+    coin.play();
     window.alert("Successfully Changed!");
 }
 function changeColorToBlack(){
+    if (gems < 1){
+        window.alert("Not Enough Gems, need 1 gem");
+        return;
+    }
+    gems = gems -1;
     skinColor[0] = 4;
     skinColor[1] = 5;
     skinColor[2] = 4;
+    coin.play();
     window.alert("Successfully Changed!");
 }
 function changeColorToGrey(){
+    if (gems < 1){
+        window.alert("Not Enough Gems, need 1 gem");
+        return;
+    }
+    gems = gems -1;
     skinColor[0] = 87;
     skinColor[1] = 92;
     skinColor[2] = 89;
+    coin.play();
     window.alert("Successfully Changed!");
 }
 function changeColorToPink(){
+    if (gems < 1){
+        window.alert("Not Enough Gems, need 1 gem");
+        return;
+    }
+    gems = gems -1;
     skinColor[0] = 252;
     skinColor[1] = 144;
     skinColor[2] = 214;
+    coin.play();
     window.alert("Successfully Changed!");
 }
 function changeColorToPurple(){
+    if (gems < 1){
+        window.alert("Not Enough Gems, need 1 gem");
+        return;
+    }
+    gems = gems -1;
     skinColor[0] = 122;
     skinColor[1] = 5;
     skinColor[2] = 77;
+    coin.play();
     window.alert("Successfully Changed!");
 }
 function changeColorToDarkBlue(){
+    if (gems < 1){
+        window.alert("Not Enough Gems, need 1 gem");
+        return;
+    }
+    gems = gems -1;
     skinColor[0] = 9;
     skinColor[1] = 5;
     skinColor[2] = 122;
+    coin.play();
     window.alert("Successfully Changed!");
 }
 function changeColorToBrown(){
+    if (gems < 1){
+        window.alert("Not Enough Gems, need 1 gem");
+        return;
+    }
+    gems = gems -1;
     skinColor[0] = 122;
     skinColor[1] = 48;
     skinColor[2] = 5;
+    coin.play();
     window.alert("Successfully Changed!");
+}
+
+function question(){
+    let correct = false;
+    do {
+        let user;
+        let randomChoice = int(random(1, 8));
+        let randomChoice2 = int(random(1,8));
+        let fraction = false;
+        let answer;
+        
+        //If random choice and radom choice2 is a even number
+        if (randomChoice % 2 == 0 && randomChoice2 % 2 == 0 ){
+            fraction = true;
+        } else {
+            fraction = false;
+        }
+        
+        if (fraction == true && randomChoice >= randomChoice2){
+            answer = randomChoice/randomChoice2;
+            user = parseFloat(prompt("What is " + randomChoice + "/" + randomChoice2));
+        } else if (fraction == true && randomChoice < randomChoice2){
+            answer = randomChoice2/randomChoice;
+            user = parseFloat(prompt("What is " + randomChoice2 + "/" + randomChoice));
+        } else {
+            answer = randomChoice2 * randomChoice;
+            user = parseFloat(prompt("What is " + randomChoice2 + " x " + randomChoice));
+        }
+
+        if (answer == user){
+            window.alert("Correct");
+            correct = true;
+        } else if (answer != user){
+            window.alert("Incorrect");
+            correct = false;
+        }
+    } while (correct == false);
+    coin.play();
+}
+
+function mineBulletFunc(){
+    if (gems < 20){
+        window.alert("Not Enough Gems, need 20 gems");
+        return;
+    }
+    gems = gems - 20;
+    let correct = false;
+    do {
+        let user;
+        let randomChoice = int(random(1, 8));
+        let randomChoice2 = int(random(1,8));
+        let fraction = false;
+        let answer;
+        
+        //If random choice and radom choice2 is a even number
+        if (randomChoice % 2 == 0 && randomChoice2 % 2 == 0 ){
+            fraction = true;
+        } else {
+            fraction = false;
+        }
+        
+        if (fraction == true && randomChoice >= randomChoice2){
+            answer = randomChoice/randomChoice2;
+            user = parseFloat(prompt("What is " + randomChoice + "/" + randomChoice2));
+        } else if (fraction == true && randomChoice < randomChoice2){
+            answer = randomChoice2/randomChoice;
+            user = parseFloat(prompt("What is " + randomChoice2 + "/" + randomChoice));
+        } else {
+            answer = randomChoice2 * randomChoice;
+            user = parseFloat(prompt("What is " + randomChoice2 + " x " + randomChoice));
+        }
+
+        if (answer == user){
+            window.alert("Correct");
+            correct = true;
+        } else if (answer != user){
+            window.alert("Incorrect");
+            correct = false;
+        }
+    } while (correct == false);
+    speedBullet = -0.123;
+    coin.play();
 }

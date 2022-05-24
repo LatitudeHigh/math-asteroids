@@ -19,6 +19,8 @@ class bullet{
 		this.y += this.ySpd;
 		this.xSpd *= 0.984 + speedBullet;//this.xSpd *= 0.994 + speedBullet;
 		this.ySpd *= 0.984 + speedBullet;//this.ySpd *= 0.994 + speedBullet;
+        //this.xSpd *= 0.93; //mine
+        //this.ySpd *= 0.93; //mine
 	}
 	
 	outOfBounds(){
@@ -31,6 +33,11 @@ class bullet{
 			if (collide){
                 score *= (targetBalloons[i].numerator * targetBalloons[i].denominator);
 				targetBalloons.splice(i,1);
+                numOfKills += 1;
+                print(numOfKills);
+                if (numOfKills == 50){
+                    print ("Reached 50");
+                }
 				return true;
 			}
 		}

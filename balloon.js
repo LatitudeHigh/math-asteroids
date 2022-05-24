@@ -45,27 +45,20 @@ class balloon{
         text(this.numerator + "/" + this.denominator, this.x, this.y)
 		pop();
 	}
-	
 	update(){
 		this.x += this.xSpd;
 		this.y += this.ySpd;	
 	}
-	
 	outOfBounds(){
 		return(this.x > width+10 || this.x < -10 || this.y > height+10 || this.y < -10);
 	}
-	
 	myX(){
 		return this.x;
 	}
-	
 	myY(){
 		return this.y;
 	}
-	
 	myR(){
 		return this.r;
-	}
-	
-		
+	}		
 }
